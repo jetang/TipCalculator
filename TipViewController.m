@@ -6,7 +6,9 @@
 //  Copyright (c) 2015 Jeff Tang. All rights reserved.
 //
 
+
 #import "TipViewController.h"
+#import "SettingsViewController.h"
 
 @interface TipViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *billTextField;
@@ -16,6 +18,8 @@
 
 - (IBAction)onTap:(id)sender;
 - (void)updateValues;
+- (void)onSettingsButton;
+
 @end
 
 @implementation TipViewController
@@ -31,12 +35,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(onSettingsButton)];
+    [self updateTipChoice];
     [self updateValues];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self updateTipChoice];
 }
 
 /*
@@ -64,5 +75,17 @@
 
     self.tipLabel.text = [NSString stringWithFormat:@"$%0.2f", tipAmount];
     self.totalLabel.text = [NSString stringWithFormat:@"$%.2f", totalAmount];
+}
+
+- (void)onSettingsButton {
+    [self.navigationController pushViewController:[[SettingsViewController alloc] init] animated:YES];
+}
+
+- (void)updateTipChoice {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    int tipChoice = [defaults integerForKey:@"defaultTipPercentageChoice"];
+    
+    self.tipControl.selectedSegmentIndex = tipChoice;
+    [self updateValues];
 }
 @end
