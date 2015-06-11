@@ -9,7 +9,12 @@
 #import "TipViewController.h"
 
 @interface TipViewController ()
+@property (weak, nonatomic) IBOutlet UITextField *billTextField;
+@property (weak, nonatomic) IBOutlet UILabel *tipLabel;
+@property (weak, nonatomic) IBOutlet UILabel *totalLabel;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *tipControl;
 
+- (IBAction)onTap:(id)sender;
 @end
 
 @implementation TipViewController
@@ -42,4 +47,8 @@
 }
 */
 
+
+- (IBAction)onTap:(id)sender {
+    [self.view endEditing:YES];
+}
 @end
